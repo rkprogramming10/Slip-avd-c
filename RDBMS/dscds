@@ -1,0 +1,20 @@
+create or replace function student(int) returns text as'
+declare
+rrno alias for $1;
+s student1%rowtype;
+begin
+select into s * from student1 where roll=rrno;
+return s;
+end;
+'language'plpgsql';
+
+
+create or replace function studentn(varchar)returns text as'
+declare
+name alias for $1;
+s student%rowtype;
+begin
+select into s * from student1 where sname=name;
+return s;
+end;
+'language'plpgsql';

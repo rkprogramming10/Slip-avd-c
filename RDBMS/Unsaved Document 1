@@ -1,0 +1,121 @@
+root'> begin
+root'> select into s from student where rno=rrno;
+root'> return s;
+root'> end;
+root'> 'language'plpgsql';
+ERROR:  syntax error at or near "type"
+CONTEXT:  invalid type name "student % row type"
+compilation of PL/pgSQL function "student" near line 3
+root=> create or replace function student (int) returns text as'
+root'> declare
+root'> rrno alias for $1;
+root'> s student%rowtype;
+root'> begin
+root'> select into s from student where rno=rrno;
+root'> return s;
+root'> end;
+root'> 'language'plpgsql';
+ERROR:  syntax error at or near "from"
+LINE 1: select from student where rno= $1 
+               ^
+QUERY:  select from student where rno= $1 
+CONTEXT:  SQL statement in PL/PgSQL function "student" near line 5
+root=> create or replace function student(int) returns text as'
+root'> declare
+root'> rrno alias for $1;
+root'> s student%rowtype;
+root'> begin
+root'> select into s from student where roll=rrno;
+root'> return s;
+root'> end;
+root'> 'language'plpgsql';
+ERROR:  syntax error at or near "from"
+LINE 1: select from student where roll= $1 
+               ^
+QUERY:  select from student where roll= $1 
+CONTEXT:  SQL statement in PL/PgSQL function "student" near line 5
+root=> create or replace function student(int) returns text as'
+root'> declare
+root'> rrno alias for $1;
+root'> s student1%rowtype;
+root'> begin
+root'> select into s from student1 where roll=rrno;
+root'> return s;
+root'> end;
+root'> 'language'plpgsql';
+ERROR:  syntax error at or near "from"
+LINE 1: select from student1 where roll= $1 
+               ^
+QUERY:  select from student1 where roll= $1 
+CONTEXT:  SQL statement in PL/PgSQL function "student" near line 5
+root=> create or replace function student(int) returns text as'
+declare
+rrno alias for $1;
+s student1%rowtype;
+begin
+select into s from student1 where roll=rrno;
+return s;
+end;
+'language'plpgsql';
+ERROR:  syntax error at or near "from"
+LINE 1: select from student1 where roll= $1 
+               ^
+QUERY:  select from student1 where roll= $1 
+CONTEXT:  SQL statement in PL/PgSQL function "student" near line 5
+root=> create or replace function student(int) returns text as'
+root'> declare
+root'> rrno alias for $1;
+root'> s student1%rowtype;
+root'> begin
+root'> select into s from student1 where roll=rrno;
+root'> return s;
+root'> end;
+root'> 'language'plpgsql';
+ERROR:  syntax error at or near "from"
+LINE 1: select from student1 where roll= $1 
+               ^
+QUERY:  select from student1 where roll= $1 
+CONTEXT:  SQL statement in PL/PgSQL function "student" near line 5
+root=> create or replace function student(int) returns text as'
+root'> declare
+root'> rrno alias for $1;
+root'> s student1%rowtype;
+root'> begin
+root'> select into s * from student1 where roll=rrno;
+root'> return s;
+root'> end;
+root'> 'language'plpgsql';
+CREATE FUNCTION
+root=> select student(1);
+      student      
+-------------------
+ (1,sai,nashik,fy)
+(1 row)
+
+root=> select student(2);
+       student        
+----------------------
+ (2,sairam,nagpur,fy)
+(1 row)
+
+root=> create or replace function studentn(varchar)returns text as'
+root'> declare
+root'> name alias for $1;
+root'> s student%rowtype;
+root'> begin
+root'> select into s * from student1 where sname=name;
+root'> return s;
+root'> end;
+root'> 'language'plpgsql';
+CREATE FUNCTION
+root=> select studentn(sai);
+ERROR:  column "sai" does not exist
+LINE 1: select studentn(sai);
+                        ^
+root=> select studentn('sai');
+     studentn      
+-------------------
+ (1,sai,nashik,fy)
+(1 row)
+
+
